@@ -6,7 +6,11 @@ test.describe("Register Page", ()=>{
     const newUserName = faker.person.fullName();
     const newUserEmail = faker.internet.email();
     const newUserPassword = faker.internet.password();
-    await loginPage.registerUser({email: newUserEmail, password: newUserPassword, username: newUserName});
-    await loginPage.loginAndVerifyUser({email : newUserEmail, password: newUserPassword, username: newUserName});
+    await test.step("Step 1: Register new user", async () => {
+      await loginPage.registerUser({email: newUserEmail, password: newUserPassword, username: newUserName});
+    });
+    await test.step("Step 2: Login as new user", async () => {
+      await loginPage.loginAndVerifyUser({email : newUserEmail, password: newUserPassword, username: newUserName});
+    });
   });
 });
