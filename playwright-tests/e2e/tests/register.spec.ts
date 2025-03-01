@@ -6,15 +6,7 @@ test.describe("Register Page", ()=>{
     const newUserName = faker.person.fullName();
     const newUserEmail = faker.internet.email();
     const newUserPassword = faker.internet.password();
-
-    await page.goto("http://localhost:3000/login");
-    await page.getByTestId("login-register-link").click();
-    await page.getByTestId("signup-name-field").fill(newUserName);
-    await page.getByTestId("signup-email-field").fill(newUserEmail);
-    await page.getByTestId("signup-password-field").fill(newUserPassword);
-    await page.getByTestId("signup-password-confirmation-field").fill(newUserPassword);
-    await page.getByTestId("signup-submit-button").click();
-
+    await loginPage.registerUser({email: newUserEmail, password: newUserPassword, username: newUserName});
     await loginPage.loginAndVerifyUser({email : newUserEmail, password: newUserPassword, username: newUserName});
   });
 });
