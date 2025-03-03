@@ -1,5 +1,5 @@
 import { Page, test, expect } from "@playwright/test";
-import { LOGIN_SELECTORS, NAVBAR_SELECTORS } from "../constants/selectors";
+import { LOGIN_SELECTORS, NAVBAR_SELECTORS, SIGNUP_SELECTORS } from "../constants/selectors";
 
 interface LoginPageProps {
   email: string;
@@ -19,17 +19,19 @@ export default class LoginPage {
       await this.page.goto("/");
     });
     await test.step("Step 2: Filling user details", async () => {
-      await this.page.getByTestId("login-register-link").click();
-      await this.page.getByTestId("signup-name-field").fill(username);
-      await this.page.getByTestId("signup-email-field").fill(email);
-      await this.page.getByTestId("signup-password-field").fill(password);
+      await this.page.getByTestId(LOGIN_SELECTORS.registerButton).click();
+      await this.page.getByTestId(SIGNUP_SELECTORS.nameField).fill(username);
+      await this.page.getByTestId(SIGNUP_SELECTORS.emailField).fill(email);
+      await this.page.getByTestId(SIGNUP_SELECTORS.passwordField).fill(password);
       await this.page
-        .getByTestId("signup-password-confirmation-field")
+        .getByTestId(SIGNUP_SELECTORS.passwordConfirmationField)
         .fill(password);
-      await this.page.getByTestId("signup-submit-button").click();
+      await this.page.getByTestId(SIGNUP_SELECTORS.signupButton).click();
     });
     await test.step("Step 3: Verifying registration of user", async () => {
-      await expect(this.page.getByTestId("login-submit-button")).toBeVisible();
+      await expect(this.page.getByTestId(
+        LOGIN_SELECTORS.loginButton
+      )).toBeVisible();
     });
   };
   loginAndVerifyUser = async ({
@@ -52,7 +54,7 @@ export default class LoginPage {
     });
   };
   logoutAndLoginAsDifferentUser = async ({ email, password, username }: LoginPageProps): Promise<void> => {
-    await this.page.getByTestId("navbar-logout-link").click();
+    await this.page.getByTestId(NAVBAR_SELECTORS.logoutButton).click();
     await this.loginAndVerifyUser({ email, password, username });
   }
 }
