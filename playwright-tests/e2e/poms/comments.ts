@@ -28,9 +28,7 @@ export class CommentPage {
         await this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentTextField).fill(comment);
         await this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentSubmitButton).click();
       });
-      await test.step("Step 2: Checking addition of comment", async () => {
-        await expect(this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentField).getByText(comment)).toBeVisible();
-      });
+      await test.step("Step 2: Checking addition of comment", () => expect(this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentField).getByText(comment)).toBeVisible());
     };
 
     addCommentThenLogoutAndLoginAsDifferentUser = async ({taskName, comment, email = ADMIN_EMAIL!, password = ADMIN_PASSWORD!, username = "Oliver"}:CreateNewCommentProps): Promise<void> => {
@@ -39,9 +37,7 @@ export class CommentPage {
         await this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentTextField).fill(comment);
         await this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentSubmitButton).click();
       });
-      await test.step("Step 2: Checking addition of comment", async () => {
-        await expect(this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentField).getByText(comment)).toBeVisible();
-      });
+      await test.step("Step 2: Checking addition of comment", () => expect(this.page.getByTestId(CREATE_COMMENT_SELECTORS.commentField).getByText(comment)).toBeVisible());
       await test.step("Step 3: Loging in new user:", async () => {
         await this.page.getByTestId(NAVBAR_SELECTORS.logoutButton).click();
         await this.loginPage.loginAndVerifyUser({email, password, username});

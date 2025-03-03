@@ -28,11 +28,9 @@ export default class LoginPage {
         .fill(password);
       await this.page.getByTestId(SIGNUP_SELECTORS.signupButton).click();
     });
-    await test.step("Step 3: Verifying registration of user", async () => {
-      await expect(this.page.getByTestId(
+    await test.step("Step 3: Verifying registration of user", () => expect(this.page.getByTestId(
         LOGIN_SELECTORS.loginButton
-      )).toBeVisible();
-    });
+      )).toBeVisible());
   };
   loginAndVerifyUser = async ({
     email,
@@ -54,7 +52,7 @@ export default class LoginPage {
     });
   };
   logoutAndLoginAsDifferentUser = async ({ email, password, username }: LoginPageProps): Promise<void> => {
-    await this.page.getByTestId(NAVBAR_SELECTORS.logoutButton).click();
-    await this.loginAndVerifyUser({ email, password, username });
+    await test.step("Step 1: Login out to home page", () => this.page.getByTestId(NAVBAR_SELECTORS.logoutButton).click());
+    await test.step("Step 2: Login as another user", () => this.loginAndVerifyUser({ email, password, username }));
   }
 }
